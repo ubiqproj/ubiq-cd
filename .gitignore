@@ -1,8 +1,0 @@
-.env
-
-*.toml
-
-# Build
-.build/
-.packages/
-.build.env
