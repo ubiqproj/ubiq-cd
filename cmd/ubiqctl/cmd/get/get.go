@@ -3,7 +3,7 @@ package get
 import (
 	"context"
 	"fmt"
-	"net/http"
+	"io"
 	apiv1 "ubiq-cd/third_party/connect/gen/api/v1"
 	"ubiq-cd/third_party/connect/gen/api/v1/apiv1connect"
 
@@ -11,18 +11,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdGet() *cobra.Command {
+func NewCmdGet(client apiv1connect.GreetServiceClient, out io.Writer) *cobra.Command {
 	return &cobra.Command{
-		Use:  "get",
-		RunE: get,
+		Use: "get",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return RunGet(client, out)
+		},
 	}
 }
 
-func get(_ *cobra.Command, _ []string) error {
-	client := apiv1connect.NewGreetServiceClient(
-		http.DefaultClient,
-		"http://localhost:8080",
-	)
+func RunGet(client apiv1connect.GreetServiceClient, out io.Writer) error {
 	res, err := client.Greet(
 		context.Background(),
 		connect.NewRequest(&apiv1.GreetRequest{Name: "Ubiq"}),
@@ -30,6 +28,6 @@ func get(_ *cobra.Command, _ []string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(res.Msg.Greeting)
+	fmt.Fprint(out, res.Msg.Greeting)
 	return nil
 }

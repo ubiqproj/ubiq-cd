@@ -1,24 +1,27 @@
 package cmd
 
 import (
-	"os"
+	"io"
+	"net/http"
 	"ubiq-cd/cmd/ubiqctl/cmd/get"
+	"ubiq-cd/third_party/connect/gen/api/v1/apiv1connect"
 
 	"github.com/spf13/cobra"
 )
 
-var cmd = &cobra.Command{
-	Use: "ubiqctl",
-}
-
-func init() {
-	cmd.AddCommand(newCmdVersion())
-	cmd.AddCommand(get.NewCmdGet())
-}
-
-func Execute() {
-	err := cmd.Execute()
-	if err != nil {
-		os.Exit(1)
+func NewUbuqctlCommand(out io.Writer) *cobra.Command {
+	var cmd = &cobra.Command{
+		Use:          "ubiqctl",
+		SilenceUsage: true,
 	}
+
+	cmd.AddCommand(newCmdVersion(out))
+
+	client := apiv1connect.NewGreetServiceClient(
+		http.DefaultClient,
+		"http://localhost:8080",
+	)
+	cmd.AddCommand(get.NewCmdGet(client, out))
+
+	return cmd
 }
