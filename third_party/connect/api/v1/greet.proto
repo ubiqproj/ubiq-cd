@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package api.v1;
+
+option go_package = "ubiq-cd/third_party/connect/gen/api/v1;apiv1";
+
+message GreetRequest {
+  string name = 1;
+}
+
+message GreetResponse {
+  string greeting = 1;
+}
+
+service GreetService {
+  rpc Greet(GreetRequest) returns (GreetResponse) {}
+}
