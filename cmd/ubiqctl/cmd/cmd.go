@@ -4,7 +4,7 @@ import (
 	"io"
 	"net/http"
 	"ubiq-cd/cmd/ubiqctl/cmd/get"
-	"ubiq-cd/third_party/connect/gen/api/v1/apiv1connect"
+	"ubiq-cd/internal/infrastructure/webapi/connect/gen/api/v1/apiv1connect"
 
 	"github.com/spf13/cobra"
 )

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
-	apiv1 "ubiq-cd/third_party/connect/gen/api/v1"
-	"ubiq-cd/third_party/connect/gen/api/v1/apiv1connect"
+	apiv1 "ubiq-cd/internal/infrastructure/webapi/connect/gen/api/v1"
+	"ubiq-cd/internal/infrastructure/webapi/connect/gen/api/v1/apiv1connect"
 
 	"connectrpc.com/connect"
 	"golang.org/x/net/http2"
