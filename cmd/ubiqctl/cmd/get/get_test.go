@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"testing"
-	apiv1 "ubiq-cd/third_party/connect/gen/api/v1"
+	apiv1 "ubiq-cd/internal/infrastructure/webapi/connect/gen/api/v1"
 
 	"connectrpc.com/connect"
 	"github.com/stretchr/testify/mock"

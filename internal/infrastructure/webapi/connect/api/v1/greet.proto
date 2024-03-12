@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.v1;
 
-option go_package = "ubiq-cd/third_party/connect/gen/api/v1;apiv1";
+option go_package = "ubiq-cd/internal/infrastructure/webapi/connect/gen/api/v1;apiv1";
 
 message GreetRequest {
   string name = 1;

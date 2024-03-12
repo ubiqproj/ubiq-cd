@@ -1,4 +1,4 @@
-# ubiq-cd
+# [WIP] ubiq-cd
 
 Uniq CD is a declarative continuous delivery tool to built GitOps and PULL-type pipelines on just one server.
 
