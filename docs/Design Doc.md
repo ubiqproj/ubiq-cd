@@ -6,7 +6,7 @@ Pull-based continuous deployment pipelines have advantage in managing hosts over
 This is because you can leave resource management and application monitoring to the agent on the host.
 
 However, as of 2023, all tools that can build pull-based continuous deployment pipelines ( e.g., ArgoCD ) require use on Kubernetes.
-This makes them expensive to build and operate because they require Kubernete cluster, CI/CD pipeline for managing container images.
+This makes them expensive to build and operate because they require Kubernetes cluster, CI/CD pipeline for managing container images.
 
 So, we solve these issues by creating CI/CD tools.
 It will build and manage pull-based pipelines, each with a single IaC.
