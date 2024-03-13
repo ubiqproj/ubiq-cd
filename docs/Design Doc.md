@@ -2,7 +2,7 @@
 
 ## Objective
 
-Pull-based continuous deployment pipelines have advantage in managing hosts over push-based one ( common CD pipelines built with GitHub Actions, GitLab CI/CD, Jenkins, etc.).
+Pull-based continuous deployment pipelines have advantages in managing hosts over push-based one ( common CD pipelines built with GitHub Actions, GitLab CI/CD, Jenkins, etc.).
 This is because you can leave resource management and application monitoring to the agent on the host.
 
 However, as of 2023, all tools that can build pull-based continuous deployment pipelines ( e.g., ArgoCD ) require use on Kubernetes.
