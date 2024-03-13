@@ -15,7 +15,7 @@ It will build and manage pull-based pipelines, each with a single IaC.
 
 ### Goal
 
-- Simply pull-based pipelines
+- Simple pull-based pipelines
   - You can deploy and remove applications to a host with just Git operations.
 - Manage applications
   - Monitoring
