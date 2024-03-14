@@ -7,9 +7,8 @@ import (
 
 func TestNewCmdVersion(t *testing.T) {
 	var buf bytes.Buffer
-	cmd := newCmdVersion(&buf)
-	if err := cmd.Execute(); err != nil {
-		t.Errorf("Cannot execute version command: %v", err)
+	if err := newCmdVersion(&buf).Execute(); err != nil {
+		t.Errorf("Failed to execute command: %v", err)
 	}
 }
 

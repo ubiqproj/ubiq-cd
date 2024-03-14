@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"testing"
-	apiv1 "ubiq-cd/internal/infrastructure/webapi/connect/gen/api/v1"
+	apiv1 "ubiq-cd/internal/interface-adapter/interface/connectrpc/gen/api/v1"
 
 	"connectrpc.com/connect"
 	"github.com/stretchr/testify/mock"
@@ -34,9 +34,8 @@ func TestNewCmdGet(t *testing.T) {
 		nil,
 	).Once()
 
-	cmd := NewCmdGet(mock, &buf)
-	if err := cmd.Execute(); err != nil {
-		t.Errorf("Cannot execute version command: %v", err)
+	if err := NewCmdGet(mock, &buf).Execute(); err != nil {
+		t.Errorf("Failed to execute command: %v", err)
 	}
 	mock.AssertNumberOfCalls(t, "Greet", 1)
 	mock.AssertExpectations(t)

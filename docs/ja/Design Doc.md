@@ -25,23 +25,32 @@ Pull 型の Continuous Deployment パイプラインはホスト上のリソー�
 
 ## High Level Structure
 
+[Matrix](https://www.figma.com/file/JX4i8dXPMGibet47KFIUlH/Architecture-matrix?type=whiteboar&version-id=5343802330&node-id=1-2d&node-id=1%3A2)
+
 - cmd
   - ubiqcd
   - ubiqctl
     - cmd
 - internal
   - infrastructure
-    - webapi
-    - datasource
+    - interface
+      - http
+    - cmd
+      - ubiqcd
+      - ubiqctl
     - externalapi
-      - git
       - docker
+      - git
       - systemd
   - interface-adapter
+    - agent
+    - client
+    - interface
+      - connectrpc
+      - handler
   - usecase
     - runner
     - gitops
-    - metrics
   - domain
     - service
     - pipeline
