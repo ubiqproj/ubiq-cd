@@ -4,9 +4,7 @@ import (
 	"bytes"
 	"context"
 	"testing"
-	apiv1 "ubiq-cd/internal/interface-adapter/interface/connectrpc/gen/api/v1"
 
-	"connectrpc.com/connect"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -14,24 +12,15 @@ type MockObject struct {
 	mock.Mock
 }
 
-func (m *MockObject) Greet(ctx context.Context, req *connect.Request[apiv1.GreetRequest]) (*connect.Response[apiv1.GreetResponse], error) {
-	args := m.Called(ctx, req)
-	return args.Get(0).(*connect.Response[apiv1.GreetResponse]), args.Error(1)
+func (m *MockObject) Greet(ctx context.Context, name string) (string, error) {
+	args := m.Called(ctx, name)
+	return args.Get(0).(string), args.Error(1)
 }
 
 func Test_runGet(t *testing.T) {
 	t.Parallel()
-	mock := new(MockObject)
-	mock.On(
-		"Greet",
-		context.Background(),
-		connect.NewRequest(&apiv1.GreetRequest{Name: "Ubiq"}),
-	).Return(
-		&connect.Response[apiv1.GreetResponse]{
-			Msg: &apiv1.GreetResponse{Greeting: "Hello, Ubiq!"},
-		},
-		nil,
-	).Once()
+	m := new(MockObject)
+	m.On("Greet", mock.Anything, mock.Anything).Return("Hello, Ubiq!", nil).Once()
 
 	tests := []struct {
 		name    string
@@ -47,7 +36,7 @@ func Test_runGet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
-			if err := runGet(mock, out); (err != nil) != tt.wantErr {
+			if err := runGet(m, out); (err != nil) != tt.wantErr {
 				t.Errorf("RunGet() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
@@ -56,6 +45,6 @@ func Test_runGet(t *testing.T) {
 			}
 		})
 	}
-	mock.AssertNumberOfCalls(t, "Greet", 1)
-	mock.AssertExpectations(t)
+	m.AssertNumberOfCalls(t, "Greet", 1)
+	m.AssertExpectations(t)
 }
