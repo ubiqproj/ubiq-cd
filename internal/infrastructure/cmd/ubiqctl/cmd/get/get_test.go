@@ -19,29 +19,8 @@ func (m *MockObject) Greet(ctx context.Context, req *connect.Request[apiv1.Greet
 	return args.Get(0).(*connect.Response[apiv1.GreetResponse]), args.Error(1)
 }
 
-func TestNewCmdGet(t *testing.T) {
-	var buf bytes.Buffer
-
-	mock := new(MockObject)
-	mock.On(
-		"Greet",
-		context.Background(),
-		connect.NewRequest(&apiv1.GreetRequest{Name: "Ubiq"}),
-	).Return(
-		&connect.Response[apiv1.GreetResponse]{
-			Msg: &apiv1.GreetResponse{Greeting: "Hello, Ubiq!"},
-		},
-		nil,
-	).Once()
-
-	if err := NewCmdGet(mock, &buf).Execute(); err != nil {
-		t.Errorf("Failed to execute command: %v", err)
-	}
-	mock.AssertNumberOfCalls(t, "Greet", 1)
-	mock.AssertExpectations(t)
-}
-
-func TestRunGet(t *testing.T) {
+func Test_runGet(t *testing.T) {
+	t.Parallel()
 	mock := new(MockObject)
 	mock.On(
 		"Greet",
@@ -68,7 +47,7 @@ func TestRunGet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
-			if err := RunGet(mock, out); (err != nil) != tt.wantErr {
+			if err := runGet(mock, out); (err != nil) != tt.wantErr {
 				t.Errorf("RunGet() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}

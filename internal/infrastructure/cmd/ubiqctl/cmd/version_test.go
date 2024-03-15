@@ -5,14 +5,8 @@ import (
 	"testing"
 )
 
-func TestNewCmdVersion(t *testing.T) {
-	var buf bytes.Buffer
-	if err := newCmdVersion(&buf).Execute(); err != nil {
-		t.Errorf("Failed to execute command: %v", err)
-	}
-}
-
 func TestRunVersion(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		wantOut string

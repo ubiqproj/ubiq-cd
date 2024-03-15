@@ -11,18 +11,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// TODO: refactor parition of functions, and test them
-
 func NewCmdGet(client apiv1connect.GreetServiceClient, out io.Writer) *cobra.Command {
 	return &cobra.Command{
 		Use: "get",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return RunGet(client, out)
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return runGet(client, out)
 		},
 	}
 }
 
-func RunGet(client apiv1connect.GreetServiceClient, out io.Writer) error {
+func runGet(client apiv1connect.GreetServiceClient, out io.Writer) error {
 	res, err := client.Greet(
 		context.Background(),
 		connect.NewRequest(&apiv1.GreetRequest{Name: "Ubiq"}),
