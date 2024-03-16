@@ -5,11 +5,14 @@ import (
 	"fmt"
 
 	apiv1 "ubiq-cd/internal/interface-adapter/interface/connectrpc/gen/api/v1"
+	"ubiq-cd/internal/interface-adapter/interface/connectrpc/gen/api/v1/apiv1connect"
 
 	"connectrpc.com/connect"
 )
 
 type Handler struct{}
+
+var _ apiv1connect.GreetServiceHandler = (*Handler)(nil)
 
 func (s *Handler) Greet(
 	ctx context.Context,
