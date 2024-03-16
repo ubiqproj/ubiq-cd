@@ -15,7 +15,7 @@ func Serve(s Server) error {
 }
 
 func handlers() map[string]http.Handler {
-	handlers := map[string]http.Handler{}
+	handlers := make(map[string]http.Handler, 1)
 	path, handler := apiv1connect.NewGreetServiceHandler(&greeter.Handler{})
 	handlers[path] = handler
 	return handlers
