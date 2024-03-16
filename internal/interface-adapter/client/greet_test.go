@@ -57,6 +57,7 @@ func Test_client_Greet(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			c := &client{
 				GreetServiceClient: tt.fields.GreetServiceClient,

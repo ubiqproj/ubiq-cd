@@ -14,6 +14,7 @@ func TestRunVersion(t *testing.T) {
 		{name: "valid", wantOut: "v0.0.0"},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
 			RunVersion(out)

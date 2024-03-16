@@ -34,6 +34,7 @@ func Test_runGet(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
 			if err := runGet(m, out); (err != nil) != tt.wantErr {
