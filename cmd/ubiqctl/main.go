@@ -3,12 +3,11 @@ package main
 import (
 	"log/slog"
 	"os"
-	"ubiq-cd/cmd/ubiqctl/cmd"
+	"ubiq-cd/internal/infrastructure/cmd/ubiqctl"
 )
 
 func main() {
-	cmd := cmd.NewUbuqctlCommand(os.Stdout)
-	err := cmd.Execute()
+	err := ubiqctl.Run()
 	if err != nil {
 		slog.Error(err.Error())
 		os.Exit(1)
