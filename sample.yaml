@@ -1,0 +1,84 @@
+name: test_docker_without_Dockerfile
+auto_sync: true
+docker:
+  service:
+    ubiqcd:
+      build:
+        context: .
+        args:
+          GOOS: linux
+          GOARCH: amd64
+        stages:
+          - as: builder
+            image: golang:alpine3.19
+            arg:
+              - GOOS
+            env: {}
+            run:
+              - go mod download
+              - GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqcd cmd/ubiqcd/main.go
+              - GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqctl cmd/ubiqctl/main.go
+          - as: runner
+            image: busybox:latest
+            copy:
+              - from: builder
+                src: ubiqcd
+                to: ubiqcd
+            entrypoint: [./ubiqcd]
+      port:
+        - 0.0.0.0:8080:8080
+      env: {}
+---
+name: test_docker_without_Dockerfile
+auto_sync: true
+docker:
+  prepare:
+    write_files:
+      - path: .docker/Dockerfile
+        content: |
+          FROM golang:alpine3.19 AS builder
+          RUN apk update & apk add git
+          WORKING_DIR /go/src/app
+          COPY . .
+          RUN go mod download
+          RUN GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqcd cmd/ubiqcd/main.go
+          RUN GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqctl cmd/ubiqctl/main.go
+
+          FROM busybox:latest AS runner
+          COPY --from builder /go/src/app/ubiqcd /bin/ubiqcd
+          ENTRY_POINT [ "/bin/ubiqcd" ]
+    jobs:
+      - name: custum script
+        image: golang:alpine3.19
+        args: {}
+        stages:
+          - as: builder
+            image: golang:alpine3.19
+            arg:
+              - GOOS
+            env: {}
+            run:
+              - go mod download
+              - GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqcd cmd/ubiqcd/main.go
+              - GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqctl cmd/ubiqctl/main.go
+        artifacts: # for host os
+          - path: ubiqcd
+          - path: ubiqctl
+  services:
+    ubiqcd:
+      build:
+        context: .
+        args: {}
+        dockerfile: .docker/Dockerfile
+      port:
+        - 0.0.0.0:8080:8080
+---
+name: test_systemd
+auto_sync: true
+build: # systemd
+  env:
+    GOOS: linux
+    GOARCH: amd64
+  run: |
+    GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqcd cmd/ubiqcd/main.go
+    GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ubiqctl cmd/ubiqctl/main.go

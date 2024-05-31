@@ -7,13 +7,13 @@ import (
 
 // Data of yaml manifest (`docker.service.[name].build.stages.[...]`)
 type Stage struct {
-	As            *string
-	Image         string
-	Envinronments map[string]string `yaml:"env"`
-	Copies        []Copy            `yaml:"copy"`
-	Runs          []string          `yaml:"run"`
-	Cmds          []string          `yaml:"cmd"`
-	EntryPoint    []string          `yaml:"entrypoint"`
+	As            *string           `yaml:"as,omitempty"`
+	Image         string            `yaml:"image,omitempty"`
+	Envinronments map[string]string `yaml:"env,omitempty"`
+	Copies        []Copy            `yaml:"copy,omitempty"`
+	Runs          []string          `yaml:"run,omitempty"`
+	Cmds          []string          `yaml:"cmd,omitempty"`
+	EntryPoint    []string          `yaml:"entrypoint,omitempty"`
 }
 
 type Copy struct {
